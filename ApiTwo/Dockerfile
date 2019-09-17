@@ -2,7 +2,7 @@
 #For more information, please see https://aka.ms/containercompat
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.1-nanoserver-1903 AS base
-WORKDIR /app
+WORKDIR /app/apiTwo
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.1-nanoserver-1903 AS build
@@ -11,12 +11,12 @@ COPY ["ApiTwo/ApiTwo.csproj", "ApiTwo/"]
 RUN dotnet restore "ApiTwo/ApiTwo.csproj"
 COPY . .
 WORKDIR "/src/ApiTwo"
-RUN dotnet build "ApiTwo.csproj" -c Release -o /app
+RUN dotnet build "ApiTwo.csproj" -c Release -o /app/apiTwo
 
 FROM build AS publish
-RUN dotnet publish "ApiTwo.csproj" -c Release -o /app
+RUN dotnet publish "ApiTwo.csproj" -c Release -o /app/apiTwo
 
 FROM base AS final
-WORKDIR /app
-COPY --from=publish /app .
+WORKDIR /app/apiTwo
+COPY --from=publish /app/apiTwo .
 ENTRYPOINT ["dotnet", "ApiTwo.dll"]
