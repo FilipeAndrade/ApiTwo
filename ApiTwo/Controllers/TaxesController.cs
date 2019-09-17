@@ -14,9 +14,9 @@ namespace ApiTwo.Controllers.Taxes
         private ITaxService _taxService;
 
         /// <summary>
-        /// 
+        /// Construtor do controller
         /// </summary>
-        /// <param name="taxService"></param>
+        /// <param name="taxService">Interface injetada da classe que calcula os juros compostos</param>
         public TaxesController(ITaxService taxService)
         {
             _taxService = taxService;
@@ -27,7 +27,9 @@ namespace ApiTwo.Controllers.Taxes
         /// </summary>
         /// <returns>Retorna um valor sem arredondamento em duas casas decimais</returns>
         [HttpPost]
-        public IActionResult CalculaJuros(TaxesCommand command)
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult TaxCalculate(TaxesCommand command)
         {
             var validator = command.Validate();
 

@@ -10,7 +10,19 @@ namespace ApiTwo.Services
     /// </summary>
     public class TaxService : ITaxService
     {
-        private static readonly HttpClient _client = new HttpClient();
+        /// <summary>
+        /// Instancia injetada da interface do HttpClient
+        /// </summary>
+        private readonly IHttpClientService _client;
+
+        /// <summary>
+        /// Construtor onde receberá a injeção da interface do HttpClient
+        /// </summary>
+        /// <param name="client">Instancia do HttpClient</param>
+        public TaxService(IHttpClientService client)
+        {
+            _client = client;
+        }
 
         /// <summary>
         /// Calcula os juros compostos
@@ -20,6 +32,9 @@ namespace ApiTwo.Services
         public string TaxCalculate(TaxesCommand taxCommand)
         {
             var taxaJuros = Task.Run(async () => { return await GetTaxFromApiOne(); }).Result;
+
+            if (taxaJuros == null)
+                return "Não foi possível calcular os juros compostos";
 
             double valorFinal = taxCommand.ValorInicial * Math.Pow((1 + Double.Parse(taxaJuros)), taxCommand.Tempo);
 
@@ -32,15 +47,17 @@ namespace ApiTwo.Services
         /// <returns>Retorna a taxa de juros</returns>
         private async Task<string> GetTaxFromApiOne()
         {
-            HttpResponseMessage response = await _client.GetAsync("http://localhost:52815/api/taxajuros");
+            _client?.CreateClient();
 
-            if (response.IsSuccessStatusCode)
+            HttpResponseMessage response = await _client?.GetAsync("http://192.168.15.11:4000/api/taxajuros");
+
+            if (response != null && response.IsSuccessStatusCode)
             {
                 return await response.Content.ReadAsStringAsync();
             }
             else
             {
-                return "0";
+                return null;
             }
         }
     }

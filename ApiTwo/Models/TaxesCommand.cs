@@ -8,10 +8,20 @@ namespace ApiTwo.Models
     /// </summary>
     public class TaxesCommand
     {
+        /// <summary>
+        /// Valor inicial para o calculo do imposto
+        /// </summary>
         public double ValorInicial { get; set; }
 
+        /// <summary>
+        /// Tempo em meses para calculo do imposto
+        /// </summary>
         public int Tempo { get; set; }
 
+        /// <summary>
+        /// Verifica se o command e valido
+        /// </summary>
+        /// <returns>Retorna sucesso ou uma lista de erros</returns>
         public ValidationResult Validate()
         {
             return new Validator().Validate(this);

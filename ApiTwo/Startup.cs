@@ -32,7 +32,9 @@ namespace ApiTwo
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddTransient<ITaxService, TaxService>();
-            
+
+            services.AddTransient<IHttpClientService, HttpClientService>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1",
