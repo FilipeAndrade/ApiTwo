@@ -14,9 +14,10 @@ namespace ApiTwo.Controllers.SourceCode
         /// </summary>
         /// <returns>Retorna uma string com a url do Github que contém o código fonte</returns>
         [HttpGet]
-        public ActionResult<string> Get()
+        [ProducesResponseType(200)]        
+        public IActionResult Get()
         {
-            return new string("https://github.com/FilipeAndrade/ApiTwo");
+            return Ok("https://github.com/FilipeAndrade/ApiTwo");
         }
     }
 }
