@@ -1,5 +1,6 @@
 ﻿using ApiTwo.Models;
 using System;
+using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -10,6 +11,8 @@ namespace ApiTwo.Services
     /// </summary>
     public class TaxService : ITaxService
     {
+        private readonly CultureInfo _culture = CultureInfo.GetCultureInfo("pt-BR");
+
         /// <summary>
         /// Instancia injetada da interface do HttpClient
         /// </summary>
@@ -36,9 +39,9 @@ namespace ApiTwo.Services
             if (taxaJuros == null)
                 return "Não foi possível calcular os juros compostos";
 
-            double valorFinal = taxCommand.ValorInicial * Math.Pow((1 + Double.Parse(taxaJuros)), taxCommand.Tempo);
+            double valorFinal = taxCommand.ValorInicial * Math.Pow((1 + Double.Parse(taxaJuros, _culture)), taxCommand.Tempo);
 
-            return string.Format("{0:0.00}", valorFinal);
+            return string.Format(_culture, "{0:0.00}", valorFinal);
         }
 
         /// <summary>
