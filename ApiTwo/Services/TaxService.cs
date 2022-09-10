@@ -39,7 +39,7 @@ namespace ApiTwo.Services
             if (taxaJuros == null)
                 return "Não foi possível calcular os juros compostos";
 
-            double valorFinal = taxCommand.ValorInicial * Math.Pow((1 + Double.Parse(taxaJuros, _culture)), taxCommand.Tempo);
+            double valorFinal = taxCommand.ValorInicial * Math.Pow(1 + double.Parse(taxaJuros, _culture), taxCommand.Tempo);
 
             return string.Format(_culture, "{0:0.00}", valorFinal);
         }
@@ -52,7 +52,7 @@ namespace ApiTwo.Services
         {
             _client?.CreateClient();
 
-            HttpResponseMessage response = await _client?.GetAsync("http://192.168.15.11:4000/api/taxajuros");
+            HttpResponseMessage response = await _client?.GetAsync("https://localhost:44345/api/taxajuros");
 
             if (response != null && response.IsSuccessStatusCode)
             {

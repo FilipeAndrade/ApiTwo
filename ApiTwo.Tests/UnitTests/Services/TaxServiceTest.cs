@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace ApiTwo.Tests.UnitTests.SourceCode
+namespace ApiTwo.Tests.UnitTests.Services
 {
     [TestClass]
     public class TaxServiceTest
@@ -36,7 +36,7 @@ namespace ApiTwo.Tests.UnitTests.SourceCode
             _httpClientServie.Setup(x => x.GetAsync(It.IsAny<string>())).Returns(GetAsync);
 
             _httpClientServie.Setup(x => x.CreateClient()).Returns(CreateClient);
-            
+
             _service = new TaxService(_httpClientServie.Object);
         }
 

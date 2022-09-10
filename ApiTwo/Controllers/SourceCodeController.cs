@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace ApiTwo.Controllers.SourceCode
+namespace ApiTwo.Controllers
 {
     /// <summary>
     /// Controller responsável pelo método que retorna a url do Github que contém o código fonte
@@ -14,7 +14,7 @@ namespace ApiTwo.Controllers.SourceCode
         /// </summary>
         /// <returns>Retorna uma string com a url do Github que contém o código fonte</returns>
         [HttpGet]
-        [ProducesResponseType(200)]        
+        [ProducesResponseType(200)]
         public IActionResult Get()
         {
             return Ok("https://github.com/FilipeAndrade/ApiTwo");

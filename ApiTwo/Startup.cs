@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 using ApiTwo.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.PlatformAbstractions;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
+using System;
+using System.IO;
 
 namespace ApiTwo
 {
@@ -29,7 +23,7 @@ namespace ApiTwo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddControllers();
 
             services.AddTransient<ITaxService, TaxService>();
 
@@ -38,15 +32,15 @@ namespace ApiTwo
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1",
-                    new Info
+                    new OpenApiInfo
                     {
-                        Title = "Desafio Técnico - Softplan",
+                        Title = "Exemplo de uma Api ASP NET Cores",
                         Version = "v1",
                         Description = "Api com dois EndPoints",
-                        Contact = new Contact
+                        Contact = new OpenApiContact
                         {
                             Name = "Filipe Andrade",
-                            Url = "https://github.com/FilipeAndrade"
+                            Url = new Uri("https://github.com/FilipeAndrade")
                         }
                     });
 
@@ -62,20 +56,29 @@ namespace ApiTwo
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
+            app.UseHttpsRedirection();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json",
-                    "Desafio Técnico - Softplan");
+                    "Exemplo de uma Api ASP NET Core");
             });
         }
     }
