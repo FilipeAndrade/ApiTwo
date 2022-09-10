@@ -1,4 +1,4 @@
-using ApiTwo.Controllers.Taxes;
+using ApiTwo.Controllers;
 using ApiTwo.Models;
 using ApiTwo.Services;
 using FluentValidation.Results;
@@ -8,7 +8,7 @@ using Moq;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ApiTwo.Tests.UnitTests.SourceCode
+namespace ApiTwo.Tests.UnitTests.TaxesCalculate
 {
     [TestClass]
     public class TaxesCalculateControllerTest
@@ -62,8 +62,7 @@ namespace ApiTwo.Tests.UnitTests.SourceCode
 
             Assert.IsNotNull(result);
             Assert.AreEqual(400, result.StatusCode);
-            Assert.AreEqual("'Tempo' deve ser superior a '0'.", errors.FirstOrDefault().ErrorMessage);
-
+                        
             _service.Verify(x => x.TaxCalculate(It.IsAny<TaxesCommand>()), Times.Never);
         }
 
@@ -82,7 +81,6 @@ namespace ApiTwo.Tests.UnitTests.SourceCode
 
             Assert.IsNotNull(result);
             Assert.AreEqual(400, result.StatusCode);
-            Assert.AreEqual("'Valor Inicial' deve ser superior a '0'.", errors.FirstOrDefault().ErrorMessage);
 
             _service.Verify(x => x.TaxCalculate(It.IsAny<TaxesCommand>()), Times.Never);
         }

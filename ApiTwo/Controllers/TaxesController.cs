@@ -2,7 +2,7 @@
 using ApiTwo.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ApiTwo.Controllers.Taxes
+namespace ApiTwo.Controllers
 {
     /// <summary>
     /// Controller responsável por calcular os juros
